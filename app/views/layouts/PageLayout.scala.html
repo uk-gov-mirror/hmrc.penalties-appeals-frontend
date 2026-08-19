@@ -26,8 +26,7 @@
     header: components.Header,
     hmrcTrackingConsentSnippet: HmrcTrackingConsentSnippet,
     govukBackLink: GovukBackLink,
-    hmrcStandardFooter: HmrcStandardFooter,
-    languageSelect: views.html.LanguageSelect
+    hmrcStandardFooter: HmrcStandardFooter
 )
 @(
     pageTitle: String,
@@ -43,8 +42,6 @@
     isAuthorised: Boolean = true)(contentBlock: Html)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @beforeContentBlock = {
-    @if(appConfig.welshLanguageSupportEnabled && !appConfig.isServiceNavigationEnabled) {@languageSelect()}
-
     @if(backLinkEnabled) {
         @govukBackLink(BackLink(href = customBackLink.fold(controllers.routes.PreviousPageController.previousPage(optPageMode.get.page.toString, optPageMode.get.mode, false).url)(identity),
             content = Text(messages("app.common.back")), attributes = Map("id" -> "back-link")))
@@ -55,7 +52,7 @@
     <!--[if lte IE 8]><script @{CSPNonce.attr} src='@controllers.routes.Assets.versioned("javascripts/html5shiv.min.js")'></script><![endif]-->
     <!--[if lte IE 8]><link href='@controllers.routes.Assets.versioned("stylesheets/application-ie-8.css")' rel="stylesheet" type="text/css" /><![endif]-->
     <!--[if gt IE 8]><!--><link href='@controllers.routes.Assets.versioned("stylesheets/application.css")' media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
-    <script @{CSPNonce.attr} src='@controllers.routes.Assets.versioned("lib/govuk-frontend/dist/govuk/all.bundle.js")'></script>
+    <script @{CSPNonce.attr} src='@controllers.routes.Assets.versioned("lib/govuk-frontend/dist/govuk/index.bundle.js")'></script>
     <script @{CSPNonce.attr} src='@controllers.routes.Assets.versioned("lib/hmrc-frontend/hmrc/all.js")'></script>
     @if(showSignOut) {
         @hmrcTimeoutDialog(TimeoutDialog(
